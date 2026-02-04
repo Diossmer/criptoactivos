@@ -1,8 +1,8 @@
 > [!IMPORTANT]
 > Criptoactivos </br>
 > Prog III Mod I-Sec 6y7B: </br>
-> punto de evaluación: 6 pts
-> Diossmer Villamizar
+> punto de evaluación: 6 pts </br>
+> Diossmer Villamizar </br>
 > 21310567
 
 # Monitoreo CriptoActivo
