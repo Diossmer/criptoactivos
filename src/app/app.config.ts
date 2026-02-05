@@ -9,9 +9,5 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    // Optimización experimental Zoneless para Angular 18+ (mejor performance)
-    // @ts-ignore
-    (typeof ({} as any).provideExperimentalZonelessChangeDetection === 'function') ?
-      (({} as any).provideExperimentalZonelessChangeDetection()) : []
   ]
 };

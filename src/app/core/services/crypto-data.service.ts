@@ -38,7 +38,7 @@ interface CryptoConfig {
 })
 export class CryptoDataService implements OnDestroy {
   private updateSubscription?: Subscription;
-  private readonly UPDATE_INTERVAL = 200; // 200ms como requiere el ejercicio
+  private readonly UPDATE_INTERVAL = 1000; // 1000ms como requiere el ejercicio
   private readonly PRICE_HISTORY_SIZE = 20; // Mantener últimos 20 precios
 
   /**
