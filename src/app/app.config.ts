@@ -7,6 +7,11 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay())
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    // Optimización experimental Zoneless para Angular 18+ (mejor performance)
+    // @ts-ignore
+    (typeof ({} as any).provideExperimentalZonelessChangeDetection === 'function') ?
+      (({} as any).provideExperimentalZonelessChangeDetection()) : []
   ]
 };

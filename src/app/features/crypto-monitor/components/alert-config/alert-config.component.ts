@@ -37,7 +37,13 @@ export class AlertConfigComponent {
    * Maneja el cambio de umbral
    */
   onThresholdChange(assetId: string, value: string): void {
-    const threshold = value ? parseFloat(value) : undefined;
+    let threshold = value ? parseFloat(value) : undefined;
+
+    // Sanitización: Evitar valores negativos o NaN
+    if (threshold !== undefined && (isNaN(threshold) || threshold < 0)) {
+      threshold = 0;
+    }
+
     this.thresholdChanged.emit({ assetId, threshold });
   }
 
