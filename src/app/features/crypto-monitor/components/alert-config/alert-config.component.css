@@ -147,7 +147,7 @@
 
 /* Firefox - hide spin buttons */
 .threshold-input[type=number] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .clear-btn {
