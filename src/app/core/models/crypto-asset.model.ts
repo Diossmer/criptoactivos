@@ -3,7 +3,7 @@
  * 
  * Representa un activo de criptomoneda con toda su información relevante.
  * 
- * Explicación Feynman:
+ * Explicación:
  * Este modelo es como una "ficha de información" de una criptomoneda.
  * Imagina que estás siguiendo el precio de acciones en la bolsa - necesitas
  * saber el nombre, el precio actual, el precio anterior (para ver si subió o bajó),

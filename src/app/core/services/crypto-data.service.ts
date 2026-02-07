@@ -3,7 +3,7 @@
  * 
  * Servicio principal que gestiona el feed de precios en tiempo real.
  * 
- * Explicación Feynman:
+ * Explicación:
  * Este servicio es como un "proveedor de noticias financieras" que actualiza
  * los precios constantemente. Usa Signals (la nueva forma de manejar estado en Angular)
  * para que cuando los precios cambien, todos los componentes que los usan

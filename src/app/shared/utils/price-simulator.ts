@@ -1,7 +1,7 @@
 /**
  * Utilidad para simular fluctuaciones de precio realistas
  * 
- * Explicación Feynman:
+ * Explicación:
  * Como no tenemos acceso constante a la API de Binance (tiene límites de requests),
  * simulamos cambios de precio realistas. Es como simular el movimiento de las olas
  * del mar - no es completamente aleatorio, tiene cierta "inercia" y tendencias.
