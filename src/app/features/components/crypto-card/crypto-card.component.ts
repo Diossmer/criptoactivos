@@ -15,9 +15,9 @@
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CryptoAsset } from '../../../../core/models/crypto-asset.model';
+import { CryptoAsset } from '../../../core/models/crypto-asset.model';
 import { HighlightChangeDirective } from '../../directives/highlight-change.directive';
-import { CryptoCurrencyPipe } from '../../../../shared/pipes/currency-format.pipe';
+import { CryptoCurrencyPipe } from '../../../shared/pipes/currency-format.pipe';
 
 @Component({
   selector: 'app-crypto-card',

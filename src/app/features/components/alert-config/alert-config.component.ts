@@ -12,7 +12,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CryptoAsset } from '../../../../core/models/crypto-asset.model';
+import { CryptoAsset } from '../../../core/models/crypto-asset.model';
 
 @Component({
   selector: 'app-alert-config',

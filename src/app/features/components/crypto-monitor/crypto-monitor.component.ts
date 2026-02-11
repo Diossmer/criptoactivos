@@ -16,9 +16,9 @@
 import { Component, OnInit, OnDestroy, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { CryptoDataService } from '../../../../core/services/crypto-data.service';
-import { WebWorkerService } from '../../../../core/services/web-worker.service';
-import { CryptoAsset } from '../../../../core/models/crypto-asset.model';
+import { CryptoDataService } from '../../../core/services/crypto-data.service';
+import { WebWorkerService } from '../../../core/services/web-worker.service';
+import { CryptoAsset } from '../../../core/models/crypto-asset.model';
 import { CryptoCardComponent } from '../crypto-card/crypto-card.component';
 import { AlertConfigComponent } from '../alert-config/alert-config.component';
 
