@@ -13,7 +13,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { WorkerRequest, WorkerResponse, StatsResult } from '../models/stats-result.model';
 
 @Injectable({
