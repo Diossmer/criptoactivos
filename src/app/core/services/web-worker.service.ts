@@ -1,17 +1,8 @@
 /**
- * Web Worker Service
- * 
- * Servicio que gestiona la comunicación con el Web Worker de estadísticas.
- * 
- * Explicación Feynman:
- * Este servicio es como un "gerente de comunicaciones" entre nosotros (la UI)
- * y nuestro asistente (el Web Worker). Le enviamos datos para calcular,
- * y él nos devuelve los resultados cuando están listos.
- * 
- * Usamos RxJS Observables para manejar las respuestas de forma reactiva,
- * como suscribirse a un canal de noticias que te avisa cuando hay actualizaciones.
+ * Servicio Web Worker.
+ * Gestiona la comunicación con el Web Worker en segundo plano para cálculos estadísticos pesados.
+ * Puente entre el hilo principal y el worker usando Observables de RxJS.
  */
-
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { WorkerRequest, WorkerResponse, StatsResult } from '../models/stats-result.model';
@@ -23,10 +14,6 @@ export class WebWorkerService {
   private worker?: Worker;
   private statsSubject = new Subject<StatsResult>();
 
-  /**
-   * Observable que emite resultados de estadísticas
-   * Los componentes pueden suscribirse a esto para recibir actualizaciones
-   */
   public stats$ = this.statsSubject.asObservable();
 
   constructor() {
@@ -34,14 +21,11 @@ export class WebWorkerService {
   }
 
   /**
-   * Inicializa el Web Worker
-   * 
-   * Explicación Feynman:
-   * Es como "contratar" a nuestro asistente. Creamos una nueva instancia
-   * del worker y configuramos cómo manejar sus mensajes.
+   * Inicializa la instancia del Web Worker y configura los manejadores de mensajes.
+   * Verifica el soporte del navegador e instancia el worker desde la fábrica.
    */
   private initializeWorker(): void {
-    // Verificar que el navegador soporta Web Workers
+    // Verificar si el navegador soporta Web Workers
     if (typeof Worker !== 'undefined') {
       try {
         // Crear el worker usando la ruta al archivo
@@ -50,7 +34,7 @@ export class WebWorkerService {
           { type: 'module' }
         );
 
-        // Configurar el listener para mensajes del worker
+        // Configurar el listener de mensajes
         this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
           this.handleWorkerMessage(event.data);
         };
@@ -70,14 +54,14 @@ export class WebWorkerService {
   }
 
   /**
-   * Maneja los mensajes recibidos del worker
+   * Procesa los mensajes entrantes del Web Worker.
+   * Emite resultados válidos a través del subject de estadísticas o registra errores.
    * 
-   * @param response Respuesta del worker
+   * @param response - El objeto de respuesta del worker.
    */
   private handleWorkerMessage(response: WorkerResponse): void {
     if (response.type === 'stats-result' && response.data) {
-      // Emitir el resultado a través del Subject
-      // Todos los componentes suscritos recibirán esta actualización
+      // Emitir resultado vía Subject
       this.statsSubject.next(response.data);
     } else if (response.type === 'error') {
       console.error('Worker calculation error:', response.error);
@@ -87,16 +71,11 @@ export class WebWorkerService {
   }
 
   /**
-   * Solicita cálculo de estadísticas al worker
+   * Despacha una solicitud de cálculo estadístico al Web Worker.
    * 
-   * Explicación Feynman:
-   * Es como enviarle un email a tu asistente con los datos y pedirle
-   * que calcule el promedio y la volatilidad. Él hará el trabajo
-   * y te enviará la respuesta cuando termine.
-   * 
-   * @param assetId ID del activo
-   * @param priceHistory Historial de precios
-   * @param windowSize Tamaño de ventana para promedio móvil (default: 10)
+   * @param assetId - El identificador único del criptoactivo.
+   * @param priceHistory - Array de precios históricos.
+   * @param windowSize - El tamaño de la ventana de promedio móvil (por defecto: 10).
    */
   public calculateStats(
     assetId: string,
@@ -120,7 +99,8 @@ export class WebWorkerService {
   }
 
   /**
-   * Limpia recursos cuando el servicio se destruye
+   * Limpia recursos cuando el servicio se destruye.
+   * Termina el worker y completa el subject.
    */
   public ngOnDestroy(): void {
     if (this.worker) {

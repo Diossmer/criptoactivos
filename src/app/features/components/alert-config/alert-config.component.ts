@@ -1,14 +1,7 @@
 /**
- * Alert Config Component (Presentational/Dumb)
- * 
- * Componente para configurar umbrales de alerta.
- * 
- * Explicación Feynman:
- * Este componente es como un "panel de control" donde el usuario puede
- * establecer alertas de precio. Cuando el precio supera el umbral,
- * la tarjeta cambia de estilo visual.
+ * Componente de configuración para umbrales de alerta.
+ * Maneja la interfaz de usuario para establecer y borrar alertas de precio en criptoactivos.
  */
-
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,18 +16,16 @@ import { CryptoAsset } from '../../../core/models/crypto-asset.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlertConfigComponent {
-  /**
-   * Lista de activos para configurar alertas
-   */
   @Input({ required: true }) assets: CryptoAsset[] = [];
 
-  /**
-   * Evento emitido cuando se cambia un umbral
-   */
   @Output() thresholdChanged = new EventEmitter<{ assetId: string; threshold: number | undefined }>();
 
   /**
-   * Maneja el cambio de umbral
+   * Procesa el cambio de valor del umbral para un activo específico.
+   * Convierte la cadena de entrada a un número y emite el evento de actualización.
+   * 
+   * @param assetId - El identificador único del criptoactivo.
+   * @param value - El nuevo valor del umbral como cadena.
    */
   onThresholdChange(assetId: string, value: string): void {
     let threshold = value ? parseFloat(value) : undefined;
@@ -42,7 +33,10 @@ export class AlertConfigComponent {
   }
 
   /**
-   * Limpia el umbral de un activo
+   * Elimina el umbral de alerta para un activo específico.
+   * Emite un evento de actualización con un umbral indefinido.
+   * 
+   * @param assetId - El identificador único del criptoactivo a limpiar.
    */
   clearThreshold(assetId: string): void {
     this.thresholdChanged.emit({ assetId, threshold: undefined });

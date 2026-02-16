@@ -1,18 +1,8 @@
 /**
- * Crypto Card Component (Presentational/Dumb)
- * 
- * Componente que muestra la información de una criptomoneda individual.
- * 
- * Explicación Feynman:
- * Este es un componente "tonto" - solo muestra lo que le dicen, no toma decisiones.
- * Es como una pantalla de TV que muestra lo que recibe, pero no decide qué mostrar.
- * 
- * Características:
- * - Recibe datos via @Input (no los genera)
- * - Usa OnPush para optimización (solo se actualiza cuando los inputs cambian)
- * - Usa la directiva appHighlightChange para animaciones
+ * Componente Crypto Card.
+ * Muestra información individual de un activo de criptomoneda.
+ * Utiliza estrategias de detección de cambios y directivas para un rendimiento óptimo y respuesta visual.
  */
-
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CryptoAsset } from '../../../core/models/crypto-asset.model';
@@ -25,19 +15,15 @@ import { CryptoCurrencyPipe } from '../../../shared/pipes/currency-format.pipe';
   imports: [CommonModule, HighlightChangeDirective, CryptoCurrencyPipe],
   templateUrl: './crypto-card.component.html',
   styleUrl: './crypto-card.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush // ⚡ Optimización: solo actualiza cuando inputs cambian
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CryptoCardComponent {
-  /**
-   * Datos del activo a mostrar
-   * El componente padre (smart) le pasa estos datos
-   */
   @Input({ required: true }) asset!: CryptoAsset;
 
   /**
-   * Genera el mensaje de alerta explicando por qué se activó
+   * Genera un mensaje descriptivo para la alerta activa.
    * 
-   * @returns Mensaje descriptivo de la alerta
+   * @returns Una cadena que describe por qué se activó la alerta, o una cadena vacía si está inactiva.
    */
   getAlertMessage(): string {
     if (!this.asset.isAlertTriggered || this.asset.alertThreshold === undefined) {

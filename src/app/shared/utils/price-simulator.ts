@@ -1,43 +1,36 @@
 /**
- * Utilidad para simular fluctuaciones de precio realistas
- * 
- * Explicación Feynman:
- * Como no tenemos acceso constante a la API de Binance (tiene límites de requests),
- * simulamos cambios de precio realistas. Es como simular el movimiento de las olas
- * del mar - no es completamente aleatorio, tiene cierta "inercia" y tendencias.
+ * Utilidad de Simulador de Precios.
+ * Genera fluctuaciones de precios realistas para propósitos de simulación.
+ * Simula volatilidad del mercado e inercia sin dependencias de API externas.
  */
 
 /**
- * Genera una fluctuación de precio realista
+ * Genera una fluctuación de precio realista basada en el precio actual y volatilidad.
  * 
- * @param currentPrice Precio actual
- * @param volatilityFactor Factor de volatilidad (0.001 = 0.1%, 0.01 = 1%)
- * @returns Nuevo precio con fluctuación
+ * @param currentPrice - El precio base.
+ * @param volatilityFactor - Coeficiente de volatilidad (ej: 0.001 = 0.1%).
+ * @returns El nuevo precio simulado.
  */
 export function simulatePriceChange(
   currentPrice: number,
   volatilityFactor: number = 0.002
 ): number {
-  // Generar un cambio aleatorio entre -volatilityFactor y +volatilityFactor
-  // Math.random() genera un número entre 0 y 1
-  // (Math.random() - 0.5) genera un número entre -0.5 y 0.5
-  // Multiplicamos por 2 para obtener entre -1 y 1
-  // Multiplicamos por volatilityFactor para escalar el cambio
+  // Generar cambio aleatorio dentro del rango de volatilidad
   const randomChange = (Math.random() - 0.5) * 2 * volatilityFactor;
 
-  // Aplicar el cambio al precio actual
+  // Aplicar cambio
   const newPrice = currentPrice * (1 + randomChange);
 
-  // Redondear a 4 decimales para capturar variaciones en precios bajos (como ADA o XRP)
+  // Redondear a 4 decimales para precisión con activos de bajo valor
   return Math.round(newPrice * 10000) / 10000;
 }
 
 /**
- * Calcula el cambio porcentual entre dos precios
+ * Calcula el cambio porcentual entre dos puntos de precio.
  * 
- * @param currentPrice Precio actual
- * @param previousPrice Precio anterior
- * @returns Cambio porcentual
+ * @param currentPrice - El precio actual.
+ * @param previousPrice - El precio de referencia.
+ * @returns El cambio porcentual redondeado a dos decimales.
  */
 export function calculateChangePercent(
   currentPrice: number,

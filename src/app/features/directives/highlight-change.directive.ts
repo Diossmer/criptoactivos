@@ -1,17 +1,8 @@
 /**
- * Highlight Change Directive
- * 
- * Directiva personalizada que aplica animaciones flash cuando el precio cambia.
- * 
- * Explicación Feynman:
- * Una directiva es como "enseñarle un nuevo truco al HTML". Esta directiva
- * observa cuando el precio cambia y aplica una animación:
- * - Verde si el precio sube (como cuando tu equipo anota)
- * - Rojo si el precio baja (como cuando el otro equipo anota)
- * 
- * Usa el ciclo de vida de Angular (ngOnChanges) para detectar cambios automáticamente.
+ * Directiva Highlight Change.
+ * Aplica animaciones visuales de destello a los elementos cuando su valor numérico cambia.
+ * Indica cambios positivos (verde) o negativos (rojo) basados en la comparación de valores.
  */
-
 import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
@@ -19,14 +10,8 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } fro
   standalone: true
 })
 export class HighlightChangeDirective implements OnChanges {
-  /**
-   * Precio actual - cuando este cambia, la directiva reacciona
-   */
   @Input() currentPrice!: number;
 
-  /**
-   * Precio anterior - para comparar y saber si subió o bajó
-   */
   @Input() previousPrice!: number;
 
   constructor(
@@ -35,51 +20,40 @@ export class HighlightChangeDirective implements OnChanges {
   ) { }
 
   /**
-   * ngOnChanges se ejecuta automáticamente cuando los @Input cambian
+   * Detecta cambios en las propiedades de entrada y dispara la animación si corresponde.
    * 
-   * Explicación Feynman:
-   * Es como tener un "vigilante" que observa los inputs. Cada vez que
-   * currentPrice cambia, este método se ejecuta automáticamente.
-   * 
-   * @param changes Objeto con información sobre qué cambió
+   * @param changes - Las propiedades cambiadas.
    */
   ngOnChanges(changes: SimpleChanges): void {
-    // Verificar que currentPrice cambió y no es el primer cambio
-    // (no queremos animar en la carga inicial)
+    // Verifica si currentPrice cambió y no es el primer cambio
     if (changes['currentPrice'] && !changes['currentPrice'].firstChange) {
       const current = changes['currentPrice'].currentValue;
       const previous = this.previousPrice;
 
-      // Comparar precios y aplicar la animación correspondiente
+      // Compara precios y aplica la animación correspondiente
       if (current > previous) {
-        this.flashGreen(); // Precio subió 📈
+        this.flashGreen();
       } else if (current < previous) {
-        this.flashRed(); // Precio bajó 📉
+        this.flashRed();
       }
-      // Si son iguales, no hacemos nada
     }
   }
 
   /**
-   * Aplica animación flash verde (precio subió)
-   * 
-   * Explicación Feynman:
-   * Agregamos una clase CSS 'flash-green' al elemento, que tiene una
-   * animación definida. Después de 500ms, removemos la clase para que
-   * pueda volver a animarse en el próximo cambio.
+   * Aplica la animación de destello verde para indicar un aumento de precio.
+   * Agrega la clase 'flash-green' y la elimina después de la duración de la animación.
    */
   private flashGreen(): void {
-    // Agregar la clase de animación
     this.renderer.addClass(this.el.nativeElement, 'flash-green');
 
-    // Remover la clase después de 500ms (duración de la animación)
     setTimeout(() => {
       this.renderer.removeClass(this.el.nativeElement, 'flash-green');
     }, 500);
   }
 
   /**
-   * Aplica animación flash rojo (precio bajó)
+   * Aplica la animación de destello rojo para indicar una disminución de precio.
+   * Agrega la clase 'flash-red' y la elimina después de la duración de la animación.
    */
   private flashRed(): void {
     this.renderer.addClass(this.el.nativeElement, 'flash-red');

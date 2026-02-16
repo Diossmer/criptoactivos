@@ -1,14 +1,8 @@
 /**
- * Currency Format Pipe
- * 
- * Pipe personalizado para formatear precios de criptomonedas.
- * 
- * Explicación Feynman:
- * Un pipe es como un "filtro" que transforma datos para mostrarlos.
- * Este pipe toma un número (ej: 43250.5) y lo convierte en un formato
- * bonito para mostrar (ej: "$43,250.50").
+ * Pipe de Formato de Moneda.
+ * Transforma valores numéricos en cadenas de moneda formateadas (USD).
+ * Maneja la precisión decimal dinámicamente basado en la magnitud del valor.
  */
-
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -17,18 +11,18 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CryptoCurrencyPipe implements PipeTransform {
   /**
-   * Transforma un número en formato de moneda
+   * Transforma un número en una cadena formateada como moneda.
    * 
-   * @param value Valor numérico
-   * @param decimals Número de decimales (default: 2)
-   * @returns String formateado
+   * @param value - El valor numérico a formatear.
+   * @param decimals - El número de lugares decimales (por defecto: 2).
+   * @returns La cadena de moneda formateada.
    */
   transform(value: number | undefined, decimals: number = 2): string {
     if (value === undefined || value === null) {
       return '$0.00';
     }
 
-    // Para precios muy pequeños (< $1), mostrar más decimales
+    // Para precios muy pequeños (< $1), muestra más decimales
     const effectiveDecimals = value < 1 ? 4 : decimals;
 
     // Formatear con separadores de miles y decimales
